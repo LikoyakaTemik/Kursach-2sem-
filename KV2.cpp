@@ -41,11 +41,11 @@ public:
 		}
 	}
 
-	bool is_ready_before() {////дописать
+	bool is_ready_before() {////Г¤Г®ГЇГЁГ±Г ГІГј
 
 	}
 
-	bool is_uniq_name(string name){ /////дописать
+	bool is_uniq_name(string name){ /////Г¤Г®ГЇГЁГ±Г ГІГј
 		
 	}
 
@@ -183,7 +183,7 @@ public:
 				if (objects[0] == get_s_object_name()) {
 					cl_base* ob;
 					for (int i = 1; i < objects.size(); ++i) {
-						if (is_uniq_name(objects[i])) {///////////////////////////////дописать
+						if (is_uniq_name(objects[i])) {///////////////////////////////Г¤Г®ГЇГЁГ±Г ГІГј
 							ob = new cl_base(this, objects[i]);
 						}
 					}
@@ -197,7 +197,7 @@ public:
 						pointer = pointer->get_p_child(objects[0]);
 						cl_base* ob;
 						for (int i = 1; i < objects.size(); ++i) {
-							if (is_uniq_name(objects[i])) {////////////////////////////дописать
+							if (is_uniq_name(objects[i])) {////////////////////////////Г¤Г®ГЇГЁГ±Г ГІГј
 								ob = new cl_base(pointer, objects[i]);
 							}
 						}
@@ -205,7 +205,7 @@ public:
 					else {
 						cl_base* ob;
 						for (int i = 1; i < objects.size(); ++i) {
-							if (is_uniq_name(objects[i])) {////////////////////////////дописать
+							if (is_uniq_name(objects[i])) {////////////////////////////Г¤Г®ГЇГЁГ±Г ГІГј
 								ob = new cl_base(pointer, objects[i]);
 							}
 						}

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 using namespace std;
 
 class cl_base {
@@ -35,18 +36,88 @@ public:
 		}
 	}
 
-	void set_state(int state) {
-		if (is_ready_before()) {
-			this->state = state;
+	void set_state(string state) {
+		int state_int = 0;
+		for (int i = 0; i < state.size(); ++i) {
+			state_int = state_int + (int(state[i]) - 48) * pow(10, state.size() - i - 1);
+		}
+
+		if (state_int == 0) {
+			this->state = 0;
+			for (int i = 0; i < subordinate_objects.size(); ++i) {
+				subordinate_objects[i]->set_state(0);
+			}
+		}
+		else {
+			if (is_state_before()) {
+				this->state = state_int;
+			}
 		}
 	}
 
-	bool is_ready_before() {////äîïèñàòü
-
+	void set_type(string type) {
+		int type_int = 0;
+		for (int i = 0; i < type.size(); ++i) {
+			type_int = type_int + (int(type[i]) - 48) * pow(10, type.size() - i - 1);
+		}
+		
+		this->type = type_int;
 	}
 
-	bool is_uniq_name(string name){ /////äîïèñàòü
-		
+	bool is_state_before() {
+		/*cl_base* pointer = get_p_head_object();
+		while (pointer->get_p_head_object() != nullptr) {
+			if (pointer->get_state() != "is ready") {
+				return false;
+			}
+			pointer = pointer->get_p_head_object();
+		}*/
+		if (get_p_head_object() != nullptr && get_p_head_object()->state != 0) {
+			cout << "test1: \n";
+			return true;
+		}
+		else if(get_p_head_object() == nullptr){
+			cout << this << " test2: \n";
+			return true;
+		}
+		else {
+			cout << "test3: \n";
+			return false;
+		}
+	}
+
+	bool is_correct_type(string type) {
+		int type_int = 0;
+		for (int i = 0; i < type.size(); ++i) {
+			type_int = type_int + (int(type[i]) - 48) * pow(10, type.size() - i - 1);
+		}
+		if (type_int >= 2 && type_int <= 6) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	bool is_uniq_name(string name){
+		for (int i = 0; i < subordinate_objects.size(); ++i) {
+			if (subordinate_objects[i]->get_s_object_name() == name) {
+				return false;
+			}
+			else {
+				subordinate_objects[i]->is_uniq_name(name);
+			}
+		}
+		return true;
+	}
+
+	bool is_global_uniq_name(string name) {
+		cl_base* pointer_object = this;
+		while (pointer_object->p_head_object != nullptr) {
+			pointer_object = pointer_object->p_head_object;
+		}
+
+		return pointer_object->is_uniq_name(name);
 	}
 
 	string get_s_object_name() {
@@ -108,21 +179,25 @@ public:
 
 	cl_base* get_p_from_this_hierarchy(string finding_name) {
 		cl_base* ptr_child = get_p_child(finding_name);
-		if (ptr_child) {
+		if (ptr_child != nullptr) {
 			return ptr_child;
 		}
-		for (int i = 0; i < subordinate_objects.size(); ++i) {
-			subordinate_objects[i]->get_p_from_this_hierarchy(finding_name);
+		else {
+			for (int i = 0; i < subordinate_objects.size(); ++i) {
+				ptr_child = subordinate_objects[i]->get_p_from_this_hierarchy(finding_name);
+				if (ptr_child != nullptr) {
+					return ptr_child;
+				}
+			}
+			return nullptr;
 		}
-		return nullptr;	
 	}
 
 	cl_base* get_p_global_hierarchy(string finding_name) {
 		cl_base* pointer_object = this;
-		while (pointer_object->p_head_object != nullptr) {
-			pointer_object = pointer_object->p_head_object;
+		while (pointer_object->get_p_head_object() != nullptr) {
+			pointer_object = pointer_object->get_p_head_object();
 		}
-
 		return pointer_object->get_p_from_this_hierarchy(finding_name);
 	}
 
@@ -136,25 +211,43 @@ public:
 			}
 	}
 
-	void print_hiararchy_state_from_this(int lvl = 0) {
+	void print_hiararchy_state_from_this(int lvl = 1) {
 		for (int i = 0; i < subordinate_objects.size(); ++i) {
 			for (int blank = 0; blank < lvl * 4; ++blank) {
 				cout << ' ';
 			}
 			cout << subordinate_objects[i]->get_s_object_name() << " " << subordinate_objects[i]->get_state() << '\n';
-			print_hiararchy_state_from_this(lvl + 1);
+			subordinate_objects[i]->print_hiararchy_state_from_this(lvl + 1);
 		}
 	}
 
 	void print_global_hierarchy_state() {
 		cl_base* pointer_object = this;
 		while (pointer_object->p_head_object != nullptr) {
-			pointer_object = pointer_object->p_head_object;
+			pointer_object = pointer_object->get_p_head_object();
 		}
+		cout << pointer_object->get_s_object_name() << " " << pointer_object->get_state() << '\n';
 		pointer_object->print_hiararchy_state_from_this();
 	}
 
+	void print_hiararchy(int lvl = 1) {
+		for (int i = 0; i < subordinate_objects.size(); ++i) {
+			for (int blank = 0; blank < lvl * 4; ++blank) {
+				cout << ' ';
+			}
+			cout << subordinate_objects[i]->get_s_object_name() << " " << subordinate_objects[i] << '\n';
+			subordinate_objects[i]->print_hiararchy(lvl + 1);
+		}
+	}
 
+	void print_global_hierarchy() {
+		cl_base* pointer_object = this;
+		while (pointer_object->p_head_object != nullptr) {
+			pointer_object = pointer_object->get_p_head_object();
+		}
+		cout << pointer_object->get_s_object_name() << '\n';
+		pointer_object->print_hiararchy();
+	}
 };
 
 class cl_app :public cl_base {
@@ -181,35 +274,57 @@ public:
 			}
 			if (objects.size() != 1) {
 				if (objects[0] == get_s_object_name()) {
-					cl_base* ob;
-					for (int i = 1; i < objects.size(); ++i) {
-						if (is_uniq_name(objects[i])) {///////////////////////////////äîïèñàòü
-							ob = new cl_base(this, objects[i]);
-						}
+					cl_base* ob;					
+					if (objects[1] != get_s_object_name() && is_correct_type(objects[2])) {
+						ob = new cl_base(this, objects[1]);
+						ob->set_type(objects[2]);
 					}
-					/*for (int i = 0; i < subordinate_objects.size(); ++i) {
-						cout << subordinate_objects[i]->get_s_object_name() << " ";
-					}*/
 					pointer = this;
 				}
 				else {
-					if (objects[0] != pointer->get_s_object_name()) {
-						pointer = pointer->get_p_child(objects[0]);
+					if (objects[0] != pointer->get_s_object_name() && is_global_uniq_name(objects[1]) && is_correct_type(objects[2])) {
+						pointer = pointer->get_p_global_hierarchy(objects[0]);
 						cl_base* ob;
-						for (int i = 1; i < objects.size(); ++i) {
-							if (is_uniq_name(objects[i])) {////////////////////////////äîïèñàòü
-								ob = new cl_base(pointer, objects[i]);
-							}
-						}
+						ob = new cl_base(pointer, objects[1]);
+						ob->set_type(objects[2]);
 					}
 					else {
-						cl_base* ob;
-						for (int i = 1; i < objects.size(); ++i) {
-							if (is_uniq_name(objects[i])) {////////////////////////////äîïèñàòü
-								ob = new cl_base(pointer, objects[i]);
-							}
+						if (is_global_uniq_name(objects[1]) && is_correct_type(objects[2])) {
+							cl_base* ob;
+							ob = new cl_base(pointer, objects[1]);
+							ob->set_type(objects[2]);
 						}
 					}
+				}
+			}
+			else {
+				break;
+			}
+		}
+
+		while (true) {
+			objects.clear();
+			getline(cin, command, '\n');
+			for (int i = 0; i < command.size(); ++i) {
+				string obj_name = "";
+				while (command[i] != ' ' && i < command.size()) {
+					obj_name = obj_name + command[i];
+					++i;
+				}
+				objects.push_back(obj_name);
+			}
+
+			/*
+			for (int i = 0; i < objects.size(); ++i) {
+				cout << objects[i] << " ";
+			}*/
+			
+			if (objects.size() == 2) {
+				if (objects[0] != get_s_object_name()) {
+					get_p_from_this_hierarchy(objects[0])->set_state(objects[1]);
+				}
+				else {
+					set_state(objects[1]);
 				}
 			}
 			else {
@@ -219,7 +334,9 @@ public:
 	}
 
 	int exec_app() {
-		pointer->print_s_object_name_tree();
+		print_global_hierarchy();
+		cout << "The tree of objects and their readiness\n";
+		print_global_hierarchy_state();
 		return 0;
 	}
 };

@@ -1,0 +1,29 @@
+﻿  cl_2.cpp
+  cl_3.cpp
+  cl_4.cpp
+  cl_5.cpp
+  cl_6.cpp
+  cl_app.cpp
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_app.cpp(22,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_app.cpp(24,34): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_app.cpp(125,21): warning C4018: <: несоответствие типов со знаком и без знака
+  cl_base.cpp
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_app.cpp(127,34): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(16,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(32,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(33,25): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(38,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(69,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(70,23): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(81,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(130,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(140,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(149,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(163,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(182,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(192,20): warning C4018: <: несоответствие типов со знаком и без знака
+  cl_prod.cpp
+  Source.cpp
+  Создание кода...
+C:\Users\bukan\source\repos\Kursach_KV2_prod\Kursach_KV2_prod\cl_base.cpp(211,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Kursach_KV2_prod.vcxproj -> C:\Users\bukan\source\repos\Kursach_KV2_prod\Debug\Kursach_KV2_prod.exe

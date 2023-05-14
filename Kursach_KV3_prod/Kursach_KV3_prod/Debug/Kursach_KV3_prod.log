@@ -1,0 +1,6 @@
+﻿  cl_app.cpp
+C:\Users\bukan\source\repos\Kursach_KV3_prod\Kursach_KV3_prod\cl_app.cpp(22,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV3_prod\Kursach_KV3_prod\cl_app.cpp(24,34): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV3_prod\Kursach_KV3_prod\cl_app.cpp(154,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV3_prod\Kursach_KV3_prod\cl_app.cpp(156,34): warning C4018: <: несоответствие типов со знаком и без знака
+  Kursach_KV3_prod.vcxproj -> C:\Users\bukan\source\repos\Kursach_KV3_prod\Debug\Kursach_KV3_prod.exe

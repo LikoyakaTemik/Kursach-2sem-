@@ -136,7 +136,7 @@ int cl_app::build_tree_objects() {
 				else {
 					std::cout << "Object tree\n";
 					print_global_hierarchy();
-					std::cout << "The head object " << objects[1] << " is not found";
+					std::cout << "The head object " << objects[0] << " is not found";
 					return 1;
 				}
 			}
@@ -159,7 +159,7 @@ int cl_app::build_tree_objects() {
 			}
 			objects.push_back(obj_name);
 		}
-		
+
 		if (objects[0] == "SET") {
 			if (objects[1][0] == '/') {
 				pointer = get_p_global_hierarchy(objects[1]);
@@ -187,24 +187,26 @@ int cl_app::build_tree_objects() {
 		}
 		else if (objects[0] == "MOVE") {
 			cl_base* cur_pointer = this;
+			//std::cout << ">>" << pointer << '\n';
 			if (objects[1][0] == '/') {
 				cur_pointer = get_p_global_hierarchy(objects[1]);
 			}
 			else {
 				cur_pointer = pointer->get_p_global_hierarchy(objects[1]);
 			}
-			if (cur_pointer) {//Ïðîâåðêà íà ñóùåñòâîâàíèå ãîëîâíîãî îáúåêòà
-				if (!(pointer->get_p_from_this_hierarchy(cur_pointer))) {//ïðîâåðêà, íå ÿâëÿåòñÿ ëè íîâûé ãîëîâíîé îáúåêò ïîòîìêîì òåêóùåãî
-					if (!(cur_pointer->get_p_child(pointer->get_s_object_name()))) {//ïðîâåðêà íà äóáëèêàòû èì¸í äëÿ ãîëîâíîãî îáúåêòà
-						pointer->set_p_head_object(cur_pointer);
-						std::cout << "New head object : " << cur_pointer->get_s_object_name() << '\n';
+			if (cur_pointer) {//ÃÃ°Ã®Ã¢Ã¥Ã°ÃªÃ  Ã­Ã  Ã±Ã³Ã¹Ã¥Ã±Ã²Ã¢Ã®Ã¢Ã Ã­Ã¨Ã¥ Ã£Ã®Ã«Ã®Ã¢Ã­Ã®Ã£Ã® Ã®Ã¡ÃºÃ¥ÃªÃ²Ã 
+				if (!(pointer->get_p_from_this_hierarchy(cur_pointer))) {//Ã¯Ã°Ã®Ã¢Ã¥Ã°ÃªÃ , Ã­Ã¥ Ã¿Ã¢Ã«Ã¿Ã¥Ã²Ã±Ã¿ Ã«Ã¨ Ã­Ã®Ã¢Ã»Ã© Ã£Ã®Ã«Ã®Ã¢Ã­Ã®Ã© Ã®Ã¡ÃºÃ¥ÃªÃ² Ã¯Ã®Ã²Ã®Ã¬ÃªÃ®Ã¬ Ã²Ã¥ÃªÃ³Ã¹Ã¥Ã£Ã®
+					if (!(cur_pointer->get_p_child(pointer->get_s_object_name()))) {//Ã¯Ã°Ã®Ã¢Ã¥Ã°ÃªÃ  Ã­Ã  Ã¤Ã³Ã¡Ã«Ã¨ÃªÃ Ã²Ã» Ã¨Ã¬Â¸Ã­ Ã¤Ã«Ã¿ Ã£Ã®Ã«Ã®Ã¢Ã­Ã®Ã£Ã® Ã®Ã¡ÃºÃ¥ÃªÃ²Ã 
+						pointer->set_p_head_object(cur_pointer) << '\n';
+						//std::cout << ">>" << pointer->get_p_head_object() << '\n';
+						std::cout << "New head object: " << cur_pointer->get_s_object_name() << '\n';
 					}
 					else {
 						std::cout << objects[1] << "     Dubbing the names of subordinate objects\n";
 					}
 				}
 				else {
-					std::cout << objects[1] << "      Redefining the head object failed\n";
+					std::cout << objects[1] << "     Redefining the head object failed\n";
 				}
 			}
 			else {

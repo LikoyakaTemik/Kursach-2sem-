@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-
+#include <algorithm>
 cl_base::cl_base(cl_base* p_head_object, std::string s_object_name) {
 	this->p_head_object = p_head_object;
 	this->s_object_name = s_object_name;
@@ -50,8 +50,8 @@ bool cl_base::set_p_head_object(cl_base* pointer) {
 	if (!pointer) {
 		return false;
 	}
-	else
-		if (this->get_p_head_object() && !get_p_from_this_hierarchy(pointer->get_s_object_name())) {
+	else {
+		if (this->get_p_head_object() && !get_p_from_this_hierarchy(pointer)) {
 			get_p_head_object()->delete_child(get_s_object_name());
 			p_head_object = pointer;
 			pointer->subordinate_objects.push_back(this);
@@ -60,11 +60,12 @@ bool cl_base::set_p_head_object(cl_base* pointer) {
 		else {
 			return false;
 		}
+	}
 }
 
-bool cl_base::delete_child(std::string name_child) {/*Метод удаления подчиненного объекта по наименованию.
-													Если объект не найден, то метод завершает работу.
-													Один параметр строкового типа, содержит наименование удаляемого подчиненного объекта;*/
+bool cl_base::delete_child(std::string name_child) {/*ГЊГҐГІГ®Г¤ ГіГ¤Г Г«ГҐГ­ГЁГї ГЇГ®Г¤Г·ГЁГ­ГҐГ­Г­Г®ГЈГ® Г®ГЎГєГҐГЄГІГ  ГЇГ® Г­Г ГЁГ¬ГҐГ­Г®ГўГ Г­ГЁГѕ.
+													Г…Г±Г«ГЁ Г®ГЎГєГҐГЄГІ Г­ГҐ Г­Г Г©Г¤ГҐГ­, ГІГ® Г¬ГҐГІГ®Г¤ Г§Г ГўГҐГ°ГёГ ГҐГІ Г°Г ГЎГ®ГІГі.
+													ГЋГ¤ГЁГ­ ГЇГ Г°Г Г¬ГҐГІГ° Г±ГІГ°Г®ГЄГ®ГўГ®ГЈГ® ГІГЁГЇГ , Г±Г®Г¤ГҐГ°Г¦ГЁГІ Г­Г ГЁГ¬ГҐГ­Г®ГўГ Г­ГЁГҐ ГіГ¤Г Г«ГїГҐГ¬Г®ГЈГ® ГЇГ®Г¤Г·ГЁГ­ГҐГ­Г­Г®ГЈГ® Г®ГЎГєГҐГЄГІГ ;*/
 	if (get_p_child(name_child)) {
 		subordinate_objects.erase(find(subordinate_objects.begin(), subordinate_objects.end(), get_p_child(name_child)));
 		return true;
@@ -257,8 +258,8 @@ cl_base* cl_base::get_p_global_hierarchy(std::string coordinate) {
 	cl_base* pointer_object = this;
 	std::vector<std::string> objs = coordinate_parse(coordinate);
 	for (int cor = 0; cor < objs.size(); ++cor) {
-		if (objs[cor].size() == 1) {
-			if (objs[cor] == "/") {
+		if (objs[cor].size() == 1 && objs.size() == 1) {
+			if (objs[0] == "/" || objs[0] == "//") {
 				while (pointer_object->get_p_head_object() != nullptr) {
 					pointer_object = pointer_object->get_p_head_object();
 				}
@@ -268,51 +269,62 @@ cl_base* cl_base::get_p_global_hierarchy(std::string coordinate) {
 				return this;
 			}
 		}
-		else if (objs[cor].size() > 1) {
-			if (objs[cor][0] == '/' && objs[cor][1] == '/') {
-				std::string finding_name = "";
-				for (int i = 2; i < objs[cor].size(); ++i) {
-					finding_name += objs[cor][i];
-				}
-
+		//else if (objs[cor].size() > 1) {
+		if (objs[cor][0] == '/' && objs[cor][1] == '/') {
+			std::string finding_name = "";
+			for (int i = 2; i < objs[cor].size(); ++i) {
+				finding_name += objs[cor][i];
+			}
+			if (finding_name == "") {
+				return nullptr;
+			}
+			while (pointer_object->get_p_head_object() != nullptr) {
+				pointer_object = pointer_object->get_p_head_object();
+			}
+			pointer_object = pointer_object->get_p_child(finding_name);
+		}
+		else if (objs[cor][0] == '.') {
+			std::string finding_name = "";
+			for (int i = 1; i < objs[cor].size(); ++i) {
+				finding_name += objs[cor][i];
+			}
+			if (finding_name == "") {
+				return nullptr;
+			}
+			pointer_object = get_p_from_this_hierarchy(finding_name);
+		}
+		else if (objs[cor][0] == '/') {
+			std::string finding_name = "";
+			for (int i = 1; i < objs[cor].size(); ++i) {
+				finding_name += objs[cor][i];
+			}
+			if (finding_name == "") {
+				return nullptr;
+			}
+			if (cor == 0) {
 				while (pointer_object->get_p_head_object() != nullptr) {
 					pointer_object = pointer_object->get_p_head_object();
 				}
-				return pointer_object->get_p_from_this_hierarchy(finding_name);
-			}
-			else if (objs[cor][0] == '.') {
-				std::string finding_name = "";
-				for (int i = 1; i < objs[cor].size(); ++i) {
-					finding_name += objs[cor][i];
-				}
-				pointer_object = get_p_from_this_hierarchy(finding_name);
-			}
-			else if (objs[cor][0] == '/') {
-				std::string finding_name = "";
-				for (int i = 1; i < objs[cor].size(); ++i) {
-					finding_name += objs[cor][i];
-				}
-				if (cor == 0) {
-					while (pointer_object->get_p_head_object() != nullptr) {
-						pointer_object = pointer_object->get_p_head_object();
-					}
-					pointer_object = pointer_object->get_p_child(finding_name);
-				}
-				else {
-					pointer_object = pointer_object->get_p_child(finding_name);
-				}
+				pointer_object = pointer_object->get_p_child(finding_name);
 			}
 			else {
-				std::string finding_name = "";
-				for (int i = 0; i < objs[cor].size(); ++i) {
-					finding_name += objs[cor][i];
-				}
-				pointer_object = get_p_child(finding_name);
+				pointer_object = pointer_object->get_p_child(finding_name);
 			}
 		}
 		else {
-			return nullptr;
+			std::string finding_name = "";
+			for (int i = 0; i < objs[cor].size(); ++i) {
+				finding_name += objs[cor][i];
+			}
+			if (finding_name == "") {
+				return nullptr;
+			}
+			pointer_object = get_p_child(finding_name);
 		}
+		/*
+		else {
+			return nullptr;
+		}*/
 	}
 	return pointer_object;
 }

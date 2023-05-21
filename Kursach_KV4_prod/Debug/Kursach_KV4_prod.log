@@ -1,0 +1,11 @@
+﻿  cl_app.cpp
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(24,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(26,34): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(173,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(175,34): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(357,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(359,34): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(403,47): warning C4552: "<<": результат выражения не используется
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(429,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\bukan\source\repos\Kursach_KV4_prod\Kursach_KV4_prod\cl_app.cpp(430,15): warning C4018: <: несоответствие типов со знаком и без знака
+  Kursach_KV4_prod.vcxproj -> C:\Users\bukan\source\repos\Kursach_KV4_prod\Debug\Kursach_KV4_prod.exe

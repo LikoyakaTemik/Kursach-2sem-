@@ -22,7 +22,7 @@ protected:
 	std::string s_object_name = "Base_object";
 	cl_base* p_head_object = nullptr;
 	std::vector <cl_base*> subordinate_objects;
-	unsigned short state = 0;
+	unsigned short state = 1;
 	unsigned short num = 1;
 	std::vector<connect*> connects;
 public:

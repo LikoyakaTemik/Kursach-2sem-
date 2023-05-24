@@ -37,14 +37,14 @@ void cl_base::set_state(std::string state) {
 
 	if (state_int == 0) {
 		this->state = 0;
-		/*for (int i = 0; i < subordinate_objects.size(); ++i) {
+		for (int i = 0; i < subordinate_objects.size(); ++i) {
 			subordinate_objects[i]->set_state(0);
-		}*/
+		}
 	}
 	else {
-		//if (is_state_before()) {
+		if (is_state_before()) {
 		this->state = state_int;
-		//}
+		}
 	}
 }
 
@@ -447,16 +447,18 @@ void cl_base::set_connect(TYPE_SIGNAL p_signal, cl_base* p_target, TYPE_HANDLER 
 }
 
 void cl_base::emit_signal(TYPE_SIGNAL p_signal, std::string& s_command){
-	(this->*p_signal)(s_command);  // вызов метода сигнала
-	for (int i = 0; i < connects.size(); i++) // цикл по всем обработчикам
-	{
-		if (connects[i]->p_signal == p_signal)      // определение допустимого обработчика
-		{//Дописать проверку на готовность целевого объекта(connects[i]->p_target)
-			//std::cout << ">>> " << connects[i]->p_target->get_state() << "trigerred<<<";
-			//if (connects[i]->p_target->get_state() == "is_ready") {
-				cl_base* p_target = connects[i]->p_target;      // вызов метода обработчика
-				(p_target->*(connects[i]->p_handler))(s_command);
-			//}
+	if (this->get_state() == "is ready") {
+		(this->*p_signal)(s_command);  // вызов метода сигнала
+		for (int i = 0; i < connects.size(); i++) // цикл по всем обработчикам
+		{
+			if (connects[i]->p_signal == p_signal)      // определение допустимого обработчика
+			{//Дописать проверку на готовность целевого объекта(connects[i]->p_target)
+				//std::cout << ">>> " << connects[i]->p_target->get_state();
+				if (connects[i]->p_target->get_state() == "is ready") {
+					cl_base* p_target = connects[i]->p_target;      // вызов метода обработчика
+					(p_target->*(connects[i]->p_handler))(s_command);
+				}
+			}
 		}
 	}
 }

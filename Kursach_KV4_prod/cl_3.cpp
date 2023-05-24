@@ -24,7 +24,7 @@ void cl_3::handler_f(std::string command) {
 	else {
 		absolute_coordinate = "/" + get_s_object_name();
 	}
-	std::cout << "Signal to " << absolute_coordinate << "   Text: " << command << '\n';
+	std::cout << "Signal to " << absolute_coordinate << " Text:  " << command << '\n';
 	return;
 }
 

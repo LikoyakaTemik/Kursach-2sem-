@@ -827,9 +827,9 @@ void cl_app::handler_f(std::string command) {
 		absolute_coordinate = get_p_head_object()->get_p_absolute_coordinate(get_s_object_name());
 	}
 	else {
-		absolute_coordinate = "/" + get_s_object_name();
+		absolute_coordinate = "/";
 	}
-	std::cout << "Signal to " << absolute_coordinate << "   Text: " << command << '\n';
+	std::cout << "Signal to " << absolute_coordinate << " Text:  " << command << '\n';
 	return;
 }
 

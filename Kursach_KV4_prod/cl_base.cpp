@@ -4,7 +4,9 @@
 #include <cmath>
 #include <algorithm>
 
-
+/*
+!!!!!Описания методов смотреть в cl_base.h!!!!!
+*/
 cl_base::cl_base(cl_base* p_head_object, std::string s_object_name) {
 	this->p_head_object = p_head_object;
 	this->s_object_name = s_object_name;
@@ -14,7 +16,7 @@ cl_base::cl_base(cl_base* p_head_object, std::string s_object_name) {
 }
 
 bool cl_base::set_s_object_name(std::string s_object_name) {
-	if (p_head_object) {
+	if (p_head_object) {	// Проверка на то, является ли текущий головной объект корнем дерева
 		for (int i = 0; i < p_head_object->subordinate_objects.size(); ++i) {
 			if (p_head_object->subordinate_objects[i]->s_object_name == s_object_name) {
 				return false;
@@ -69,9 +71,7 @@ bool cl_base::set_p_head_object(cl_base* pointer) {
 	}
 }
 
-bool cl_base::delete_child(std::string name_child) {/*Ìåòîä óäàëåíèÿ ïîä÷èíåííîãî îáúåêòà ïî íàèìåíîâàíèþ.
-													Åñëè îáúåêò íå íàéäåí, òî ìåòîä çàâåðøàåò ðàáîòó.
-													Îäèí ïàðàìåòð ñòðîêîâîãî òèïà, ñîäåðæèò íàèìåíîâàíèå óäàëÿåìîãî ïîä÷èíåííîãî îáúåêòà;*/
+bool cl_base::delete_child(std::string name_child) {
 	if (get_p_child(name_child)) {
 		subordinate_objects.erase(find(subordinate_objects.begin(), subordinate_objects.end(), get_p_child(name_child)));
 		return true;
@@ -87,7 +87,6 @@ bool cl_base::is_state_before() {
 
 	if (pointer != nullptr) {
 		if (pointer->state != 0) {
-			//cout << "test1: \n";
 			return true;
 		}
 		else {
@@ -95,7 +94,6 @@ bool cl_base::is_state_before() {
 		}
 	}
 	else {
-		//std::cout << this << " test2: \n";
 		return true;
 	}
 }
@@ -290,7 +288,6 @@ cl_base* cl_base::get_p_global_hierarchy(std::string coordinate) {
 				return this;
 			}
 		}
-		//else if (objs[cor].size() > 1) {
 		if (objs[cor][0] == '/' && objs[cor][1] == '/') {
 			std::string finding_name = "";
 			for (int i = 2; i < objs[cor].size(); ++i) {
@@ -342,10 +339,6 @@ cl_base* cl_base::get_p_global_hierarchy(std::string coordinate) {
 			}
 			pointer_object = get_p_child(finding_name);
 		}
-		/*
-		else {
-			return nullptr;
-		}*/
 	}
 	return pointer_object;
 }
@@ -385,7 +378,6 @@ void cl_base::print_hiararchy(int lvl) {
 			std::cout << ' ';
 		}
 		std::cout << subordinate_objects[i]->get_s_object_name() << '\n';
-		//<< " " << subordinate_objects[i] << '\n';
 		subordinate_objects[i]->print_hiararchy(lvl + 1);
 	}
 }
@@ -452,8 +444,7 @@ void cl_base::emit_signal(TYPE_SIGNAL p_signal, std::string& s_command){
 		for (int i = 0; i < connects.size(); i++) // цикл по всем обработчикам
 		{
 			if (connects[i]->p_signal == p_signal)      // определение допустимого обработчика
-			{//Дописать проверку на готовность целевого объекта(connects[i]->p_target)
-				//std::cout << ">>> " << connects[i]->p_target->get_state();
+			{
 				if (connects[i]->p_target->get_state() == "is ready") {
 					cl_base* p_target = connects[i]->p_target;      // вызов метода обработчика
 					(p_target->*(connects[i]->p_handler))(s_command);
@@ -466,13 +457,5 @@ void cl_base::emit_signal(TYPE_SIGNAL p_signal, std::string& s_command){
 void cl_base::delete_connect(TYPE_SIGNAL p_signal, cl_base* p_target, TYPE_HANDLER   p_ob_handler){
 	connects.erase(find(connects.begin(), connects.end(), get_p_connect(p_signal, p_target, p_ob_handler)));
 }
-
-/*void cl_base::signal_f(std::string& command) {
-	return;
-}
-
-void cl_base::handler_f(std::string command) {
-	return;
-}*/
 
 cl_base::~cl_base() {}

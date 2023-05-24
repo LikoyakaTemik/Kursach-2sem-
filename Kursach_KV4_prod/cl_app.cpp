@@ -9,19 +9,24 @@
 #include <vector>
 #include <string>
 
+/*
+!!!!Описание методов смотреть в cl_app.h!!!!
+*/
+
 cl_app::cl_app(cl_base* p_head_object) :cl_base(p_head_object) {}
 
 int cl_app::build_tree_objects() {
-	cl_base* pointer = this;
-	std::vector<std::string> objects;
-	std::string command;
+	cl_base* pointer = this;	// Указатель на текущий объект при построении
+	std::vector<std::string> objects;	// Массив частей команды для дальнейшей обработки
+	std::string command;	// Введённая команда
+
 	//Построение дерева
 	std::getline(std::cin, command, '\n');
 	set_s_object_name(command);
 	while (true) {
 		objects.clear();
 		std::getline(std::cin, command, '\n');
-		for (int i = 0; i < command.size(); ++i) {
+		for (int i = 0; i < command.size(); ++i) {	// Цикл разбиения команды на части
 			std::string obj_name = "";
 			while (command[i] != ' ' && i < command.size()) {
 				obj_name = obj_name + command[i];
@@ -31,7 +36,6 @@ int cl_app::build_tree_objects() {
 		}
 		if (objects.size() != 1) {
 			if (get_p_global_hierarchy(objects[0]) == this) {
-				//std::cout << "get>>" << get_p_global_hierarchy(objects[0]) << " should_be>>" << this << '\n';
 				cl_base* ob;
 				pointer = this;
 				if (!get_p_child(objects[1]) && is_correct_type(objects[2])) {
@@ -73,7 +77,6 @@ int cl_app::build_tree_objects() {
 				if (get_p_global_hierarchy(objects[0]) != nullptr) {
 					if (get_p_global_hierarchy(objects[0]) != pointer) {
 						pointer = get_p_global_hierarchy(objects[0]);
-						//std::cout << "get>>" << get_p_global_hierarchy(objects[0]) << " name: " << pointer->get_s_object_name() << '\n';
 						if (!(pointer->get_p_child(objects[1])) && is_correct_type(objects[2])) {
 							if (pointer) {
 								cl_base* ob;
@@ -165,12 +168,11 @@ int cl_app::build_tree_objects() {
 	std::cout << "Object tree\n";
 	print_global_hierarchy();
 	
-
 	//Построение связей
 	while (true) {
 		objects.clear();
 		std::getline(std::cin, command, '\n');
-		for (int i = 0; i < command.size(); ++i) {
+		for (int i = 0; i < command.size(); ++i) {	// Цикл разбиения команды на части
 			std::string obj_name = "";
 			while (command[i] != ' ' && i < command.size()) {
 				obj_name = obj_name + command[i];
@@ -185,11 +187,9 @@ int cl_app::build_tree_objects() {
 		else{
 			cl_base* sender = get_p_global_hierarchy(objects[0]);
 			cl_base* getter = get_p_global_hierarchy(objects[1]);
-			//std::cout << getter->get_s_object_name() << "<<<<<\n";
 			if (sender && getter) {
 				int i_sender = sender->get_num();
 				int i_getter = getter->get_num();
-				//std::cout << i_getter << "<<<<<\n";
 				switch (i_sender)
 				{
 				default:
@@ -348,9 +348,37 @@ int cl_app::build_tree_objects() {
 			}
 		}
 	}
+}
 
-	//Отработка системы
-	pointer = this;
+void cl_app::signal_f(std::string& command) {
+	std::string absolute_coordinate;
+	if (get_p_head_object()) {
+		absolute_coordinate = get_p_head_object()->get_p_absolute_coordinate(get_s_object_name());
+	}
+	else {
+		absolute_coordinate = "/" + get_s_object_name();
+	}
+	std::cout << "Signal from " << absolute_coordinate << '\n';
+	command = command + " (class: " + char(get_num() + 48) + ')';
+	return;
+}
+
+void cl_app::handler_f(std::string command) {
+	std::string absolute_coordinate;
+	if (get_p_head_object()) {
+		absolute_coordinate = get_p_head_object()->get_p_absolute_coordinate(get_s_object_name());
+	}
+	else {
+		absolute_coordinate = "/";
+	}
+	std::cout << "Signal to " << absolute_coordinate << " Text:  " << command << '\n';
+	return;
+}
+
+int cl_app::exec_app() {
+	cl_base* pointer = this;	// Указатель на текущий объект
+	std::vector<std::string> objects;	// Массив частей команды для дальнешей обработки
+	std::string command;	// Введённая команда
 	while (true) {
 		objects.clear();
 		std::getline(std::cin, command, '\n');
@@ -378,8 +406,6 @@ int cl_app::build_tree_objects() {
 			}
 		}
 		else if (objects[0] == "FIND") {
-			//std::cout << "\n>>" << objects[1] << '\n';
-			//std::cout << "\n>>" << pointer << " name: "<< pointer->get_s_object_name() << '\n';
 			cl_base* finding_pointer = pointer->get_p_global_hierarchy(objects[1]);
 			if (finding_pointer) {
 				std::cout << objects[1] << "     Object name: " << finding_pointer->get_s_object_name() << '\n';
@@ -390,18 +416,16 @@ int cl_app::build_tree_objects() {
 		}
 		else if (objects[0] == "MOVE") {
 			cl_base* cur_pointer = this;
-			//std::cout << ">>" << pointer << '\n';
 			if (objects[1][0] == '/') {
 				cur_pointer = get_p_global_hierarchy(objects[1]);
 			}
 			else {
 				cur_pointer = pointer->get_p_global_hierarchy(objects[1]);
 			}
-			if (cur_pointer) {//Ïðîâåðêà íà ñóùåñòâîâàíèå ãîëîâíîãî îáúåêòà
-				if (!(pointer->get_p_from_this_hierarchy(cur_pointer))) {//ïðîâåðêà, íå ÿâëÿåòñÿ ëè íîâûé ãîëîâíîé îáúåêò ïîòîìêîì òåêóùåãî
-					if (!(cur_pointer->get_p_child(pointer->get_s_object_name()))) {//ïðîâåðêà íà äóáëèêàòû èì¸í äëÿ ãîëîâíîãî îáúåêòà
+			if (cur_pointer) {
+				if (!(pointer->get_p_from_this_hierarchy(cur_pointer))) {
+					if (!(cur_pointer->get_p_child(pointer->get_s_object_name()))) {
 						pointer->set_p_head_object(cur_pointer) << '\n';
-						//std::cout << ">>" << pointer->get_p_head_object() << '\n';
 						std::cout << "New head object: " << cur_pointer->get_s_object_name() << '\n';
 					}
 					else {
@@ -434,7 +458,6 @@ int cl_app::build_tree_objects() {
 					message = message + objects[i];
 				}
 			}
-			//std::cout << "\n>>" << message << "<<\n";
 			cl_base* ob = get_p_global_hierarchy(objects[1]);
 			if (ob) {
 				int i_ob = ob->get_num();
@@ -469,7 +492,6 @@ int cl_app::build_tree_objects() {
 		else if (objects[0] == "SET_CONNECT") {
 			cl_base* sender = get_p_global_hierarchy(objects[1]);
 			cl_base* getter = get_p_global_hierarchy(objects[2]);
-			//std::cout << getter->get_s_object_name() << "<<<<<";
 			if (sender && getter) {
 				int i_sender = sender->get_num();
 				int i_getter = getter->get_num();
@@ -806,44 +828,7 @@ int cl_app::build_tree_objects() {
 			return 0;
 		}
 	}
-}
-
-void cl_app::signal_f(std::string& command) {
-	std::string absolute_coordinate;
-	if (get_p_head_object()) {
-		absolute_coordinate = get_p_head_object()->get_p_absolute_coordinate(get_s_object_name());
-	}
-	else {
-		absolute_coordinate = "/" + get_s_object_name();
-	}
-	std::cout << "Signal from " << absolute_coordinate << '\n';
-	command = command + " (class: " + char(get_num() + 48) + ')';
-	return;
-}
-
-void cl_app::handler_f(std::string command) {
-	std::string absolute_coordinate;
-	if (get_p_head_object()) {
-		absolute_coordinate = get_p_head_object()->get_p_absolute_coordinate(get_s_object_name());
-	}
-	else {
-		absolute_coordinate = "/";
-	}
-	std::cout << "Signal to " << absolute_coordinate << " Text:  " << command << '\n';
-	return;
-}
-
-int cl_app::exec_app() {
-	//std::cout << "Current object hierarchy tree\n";
-	//print_global_hierarchy();
 	return 0;
-
-	/*
-	cl_base* p_obj;
-	cl_base* p_target;
-	TYPE_SIGNAL signal = SIGNAL_D(cl_2::signal_f);
-	p_obj->set_connect(SIGNAL_D(cl_2::signal_f), p_target, HANDLER_D(cl_2::handler_f));
-	*/
 }
 
 cl_app::~cl_app() {}

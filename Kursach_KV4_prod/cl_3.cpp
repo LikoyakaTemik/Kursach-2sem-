@@ -1,6 +1,11 @@
 #include "cl_base.h"
 #include "cl_3.h"
 #include <iostream>
+
+/*
+!!!Описания методов смотреть в cl_3.h!!!
+*/
+
 cl_3::cl_3(cl_base* p_head_object, std::string s_object_name) :cl_base(p_head_object, s_object_name) {}
 
 void cl_3::signal_f(std::string& command) {

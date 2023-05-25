@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 
 /*
 !!!!Описание методов смотреть в cl_app.h!!!!
@@ -19,6 +20,21 @@ int cl_app::build_tree_objects() {
 	cl_base* pointer = this;	// Указатель на текущий объект при построении
 	std::vector<std::string> objects;	// Массив частей команды для дальнейшей обработки
 	std::string command;	// Введённая команда
+	std::map<int, TYPE_SIGNAL> type_signals_ptr;	// Массив указателей на методы сигнала классов
+	type_signals_ptr[1] = SIGNAL_D(cl_app::signal_f);
+	type_signals_ptr[2] = SIGNAL_D(cl_2::signal_f);
+	type_signals_ptr[3] = SIGNAL_D(cl_3::signal_f);
+	type_signals_ptr[4] = SIGNAL_D(cl_4::signal_f);
+	type_signals_ptr[5] = SIGNAL_D(cl_5::signal_f);
+	type_signals_ptr[6] = SIGNAL_D(cl_6::signal_f);
+
+	std::map<int, TYPE_HANDLER> type_handlers_ptr;	// Массив указателей на методы обработчиков классов
+	type_handlers_ptr[1] = HANDLER_D(cl_app::handler_f);
+	type_handlers_ptr[2] = HANDLER_D(cl_2::handler_f);
+	type_handlers_ptr[3] = HANDLER_D(cl_3::handler_f);
+	type_handlers_ptr[4] = HANDLER_D(cl_4::handler_f);
+	type_handlers_ptr[5] = HANDLER_D(cl_5::handler_f);
+	type_handlers_ptr[6] = HANDLER_D(cl_6::handler_f);
 
 	//Построение дерева
 	std::getline(std::cin, command, '\n');
@@ -190,155 +206,7 @@ int cl_app::build_tree_objects() {
 			if (sender && getter) {
 				int i_sender = sender->get_num();
 				int i_getter = getter->get_num();
-				switch (i_sender)
-				{
-				default:
-					break;
-				case 1:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 2:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 3:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 4:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 5:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 6:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				}
+				sender->set_connect(type_signals_ptr[i_sender], getter, type_handlers_ptr[i_getter]);
 			}
 			else if (!sender) {
 				std::cout << "Object " << objects[0] << " not found\n";
@@ -379,6 +247,21 @@ int cl_app::exec_app() {
 	cl_base* pointer = this;	// Указатель на текущий объект
 	std::vector<std::string> objects;	// Массив частей команды для дальнешей обработки
 	std::string command;	// Введённая команда
+	std::map<int, TYPE_SIGNAL> type_signals_ptr;	// Массив указателей на методы сигнала классов
+	type_signals_ptr[1] = SIGNAL_D(cl_app::signal_f);
+	type_signals_ptr[2] = SIGNAL_D(cl_2::signal_f);
+	type_signals_ptr[3] = SIGNAL_D(cl_3::signal_f);
+	type_signals_ptr[4] = SIGNAL_D(cl_4::signal_f);
+	type_signals_ptr[5] = SIGNAL_D(cl_5::signal_f);
+	type_signals_ptr[6] = SIGNAL_D(cl_6::signal_f);
+
+	std::map<int, TYPE_HANDLER> type_handlers_ptr;	// Массив указателей на методы обработчиков классов
+	type_handlers_ptr[1] = HANDLER_D(cl_app::handler_f);
+	type_handlers_ptr[2] = HANDLER_D(cl_2::handler_f);
+	type_handlers_ptr[3] = HANDLER_D(cl_3::handler_f);
+	type_handlers_ptr[4] = HANDLER_D(cl_4::handler_f);
+	type_handlers_ptr[5] = HANDLER_D(cl_5::handler_f);
+	type_handlers_ptr[6] = HANDLER_D(cl_6::handler_f);
 	while (true) {
 		objects.clear();
 		std::getline(std::cin, command, '\n');
@@ -461,29 +344,7 @@ int cl_app::exec_app() {
 			cl_base* ob = get_p_global_hierarchy(objects[1]);
 			if (ob) {
 				int i_ob = ob->get_num();
-				switch (i_ob)
-				{
-				default:
-					break;
-				case 1:
-					ob->emit_signal(SIGNAL_D(cl_app::signal_f), message);
-					break;
-				case 2:
-					ob->emit_signal(SIGNAL_D(cl_2::signal_f), message);
-					break;
-				case 3:
-					ob->emit_signal(SIGNAL_D(cl_3::signal_f), message);
-					break;
-				case 4:
-					ob->emit_signal(SIGNAL_D(cl_4::signal_f), message);
-					break;
-				case 5:
-					ob->emit_signal(SIGNAL_D(cl_5::signal_f), message);
-					break;
-				case 6:
-					ob->emit_signal(SIGNAL_D(cl_6::signal_f), message);
-					break;
-				}
+				ob->emit_signal(type_signals_ptr[i_ob], message);
 			}
 			else {
 				std::cout << "Object " << objects[1] << " not found\n";
@@ -495,155 +356,7 @@ int cl_app::exec_app() {
 			if (sender && getter) {
 				int i_sender = sender->get_num();
 				int i_getter = getter->get_num();
-				switch (i_sender)
-				{
-				default:
-					break;
-				case 1:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 2:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 3:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 4:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 5:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 6:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->set_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				}
+				sender->set_connect(type_signals_ptr[i_sender], getter, type_handlers_ptr[i_getter]);
 			}
 			else if (!sender) {
 				std::cout << "Object " << objects[1] << " not found\n";
@@ -658,155 +371,7 @@ int cl_app::exec_app() {
 			if (sender && getter) {
 				int i_sender = sender->get_num();
 				int i_getter = getter->get_num();
-				switch (i_sender)
-				{
-				default:
-					break;
-				case 1:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->delete_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->delete_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->delete_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->delete_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->delete_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->delete_connect(SIGNAL_D(cl_app::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 2:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->delete_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->delete_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->delete_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->delete_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->delete_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->delete_connect(SIGNAL_D(cl_2::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 3:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->delete_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->delete_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->delete_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->delete_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->delete_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->delete_connect(SIGNAL_D(cl_3::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 4:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->delete_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->delete_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->delete_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->delete_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->delete_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->delete_connect(SIGNAL_D(cl_4::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 5:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->delete_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->delete_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->delete_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->delete_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->delete_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->delete_connect(SIGNAL_D(cl_5::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				case 6:
-					switch (i_getter)
-					{
-					default:
-						break;
-					case 1:
-						sender->delete_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_app::handler_f));
-						break;
-					case 2:
-						sender->delete_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_2::handler_f));
-						break;
-					case 3:
-						sender->delete_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_3::handler_f));
-						break;
-					case 4:
-						sender->delete_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_4::handler_f));
-						break;
-					case 5:
-						sender->delete_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_5::handler_f));
-						break;
-					case 6:
-						sender->delete_connect(SIGNAL_D(cl_6::signal_f), getter, HANDLER_D(cl_6::handler_f));
-						break;
-					}
-				}
+				sender->delete_connect(type_signals_ptr[i_sender], getter, type_handlers_ptr[i_getter]);
 			}
 			else if (!sender) {
 				std::cout << "Object " << objects[1] << " not found\n";
